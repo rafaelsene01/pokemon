@@ -1,5 +1,8 @@
 <template>
-  <header class="header" :style="{ 'background-color': `${color}4D` }">
+  <header
+    class="header shadow-sm"
+    :style="{ 'background-color': `${color}4D` }"
+  >
     <router-link to="/">
       <img
         class="object-contain h-16 xl:h-20"

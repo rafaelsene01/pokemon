@@ -1,42 +1,48 @@
 <template>
   <div class="flex flex-col h-screen">
     <Header />
-    <div class="overflow-y-auto mt-5 flex flex-col items-center">
-      <div
-        class="relative flex flex-col justify-center items-center h-56 w-4/5 border border-black"
-      >
-        <img
-          class="object-contain h-28 xl:h-32 mb-2"
-          :src="pokemon.img"
-          @error="setAltImg"
-          alt=""
-        />
-
+    <div class="overflow-y-auto py-5">
+      <div class="w-full flex flex-col items-center">
         <div
-          class="absolute capitalize w-full h-8 bottom-0 flex justify-center items-center border-t border-black"
+          class="relative rounded-t-md flex flex-col justify-center items-center h-96 w-4/5 md:w-3/5 xl:w-2/5 border border-black"
         >
-          {{ pokemon.name }}
+          <img
+            class="object-contain h-44 xl:h-48 mb-2"
+            :src="pokemon.img"
+            @error="setAltImg"
+            alt=""
+          />
+
+          <div
+            class="absolute capitalize w-full h-8 bottom-0 flex justify-center items-center border-t border-black"
+          >
+            {{ pokemon.name }}
+          </div>
         </div>
-      </div>
-      <div class="relative  h-56 w-4/5 border border-t-0 border-black">
-        <dl>
-          <dt>Jogos</dt>
-          <dd
-            class="capitalize"
-            v-for="game in pokemon.versionGroups"
-            :key="game.id"
-          >
-            Pokémon {{ game.name.replace("-", " & ") }}
-          </dd>
-          <dt>Localização</dt>
-          <dd
-            class="capitalize"
-            v-for="location in pokemon.location.data"
-            :key="location"
-          >
-            {{ location }}
-          </dd>
-        </dl>
+        <div
+          class="h-auto rounded-b-md  w-4/5 md:w-3/5 xl:w-2/5 border border-t-0 border-black"
+        >
+          <dl>
+            <dt>Jogos</dt>
+            <dd
+              class="capitalize"
+              :class="{ 'bg-gray-100': index % 2 === 0 }"
+              v-for="(game, index) in pokemon.versionGroups"
+              :key="game.id"
+            >
+              Pokémon {{ game.name.replace("-", " & ") }}
+            </dd>
+            <dt>Localização</dt>
+            <dd
+              class="capitalize"
+              :class="{ 'bg-gray-100': index % 2 === 0 }"
+              v-for="(location, index) in locations"
+              :key="location"
+            >
+              {{ location }}
+            </dd>
+          </dl>
+        </div>
       </div>
     </div>
   </div>
@@ -70,6 +76,8 @@ export default {
       };
     });
 
+    const locations = computed(() => pokemon?.value?.location?.data);
+
     watch(
       () => pokemon.value,
       () => {
@@ -85,7 +93,21 @@ export default {
       event.target.src = require("@/assets/pokeball.png");
     }
 
-    return { pokemon, setAltImg };
+    return { pokemon, setAltImg, locations };
   }
 };
 </script>
+
+<style lang="postcss">
+dl {
+  @apply mb-2;
+}
+
+dt {
+  @apply bg-gray-300 px-4;
+}
+
+dd {
+  @apply px-8 py-1;
+}
+</style>

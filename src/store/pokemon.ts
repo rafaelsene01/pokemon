@@ -96,8 +96,6 @@ export async function getLocale(id: number) {
       }
       return item;
     });
-
-    console.log(data);
   } catch (error) {
     state.data = state.data?.map((item: any) => {
       if (item.id === id) {

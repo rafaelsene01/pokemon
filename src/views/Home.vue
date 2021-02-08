@@ -6,13 +6,13 @@
     </Header>
     <div class="overflow-y-auto  flex flex-wrap justify-center">
       <div
-        class="flex w-1/4 xl:w-1/6 px-2 py-3 xl:py-4 justify-center items-center"
+        class="flex w-1/2 sm-w-1/3 md:w-1/4 xl:w-1/6 px-2 py-3 xl:py-4 justify-center items-center"
         v-for="item in pokemonList"
         :key="item.id"
       >
         <router-link
           :to="`${item.id}`"
-          class="relative flex flex-col justify-center items-center h-56 w-4/5 border border-black"
+          class="relative shadow-xl rounded-md flex flex-col justify-center items-center h-56 w-4/5 border border-black"
         >
           <img
             class="object-contain h-28 xl:h-32 mb-2"
