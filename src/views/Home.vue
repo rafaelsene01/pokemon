@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col h-screen">
-    <Header>
-      <Pagination v-model:version="version" />
-      <Search v-model:filter="filter" />
-    </Header>
+    <snHeader>
+      <snPagination v-model:version="version" />
+      <snSearch v-model:filter="filter" />
+    </snHeader>
     <div class="overflow-y-auto  flex flex-wrap justify-center">
       <div
         class="flex w-1/2 sm-w-1/3 md:w-1/4 xl:w-1/6 px-2 py-3 xl:py-4 justify-center items-center"
@@ -33,21 +33,11 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
-import Search from "@/components/Search.vue";
-import Pagination from "@/components/Pagination.vue";
-
 import useStore from "@/store";
 import { computed, ref, watch } from "vue";
 import { getPokemonList } from "@/store/pokemon";
 
 export default {
-  components: {
-    Header,
-    Search,
-    Pagination
-  },
-
   setup() {
     const store = useStore("Pokemon");
     const filter = ref("");

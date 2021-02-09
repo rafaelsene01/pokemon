@@ -1,7 +1,7 @@
 <template>
   <div class="flex mr-4 items-center justify-end">
     <input placeholder="Pesquisar" class="search" v-model="search.input" />
-    <Icon
+    <snIcon
       width="24"
       height="24"
       class="search--icon"
@@ -13,12 +13,9 @@
 
 <script lang="ts">
 import { onBeforeMount, reactive, watch } from "vue";
-import Icon from "./Icon/index.vue";
 
 export default {
   name: "SearchComponent",
-
-  components: { Icon },
 
   props: ["filter"],
 

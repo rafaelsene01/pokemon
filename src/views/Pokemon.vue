@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-screen">
-    <Header />
+    <snHeader />
     <div class="overflow-y-auto py-5">
       <div class="w-full flex flex-col items-center">
         <div
@@ -37,7 +37,7 @@
               v-if="loading || empty"
               class="flex justify-center items-center h-12"
             >
-              <Icon
+              <snIcon
                 v-if="loading"
                 width="24"
                 height="24"
@@ -62,19 +62,12 @@
   </div>
 </template>
 <script>
-import Header from "@/components/Header.vue";
-import Icon from "@/components/Icon/index.vue";
 import { useRoute, useRouter } from "vue-router";
 import useStore from "@/store";
 import { computed, watch } from "vue";
 import { getLocale } from "@/store/pokemon";
 
 export default {
-  components: {
-    Header,
-    Icon
-  },
-
   setup() {
     const route = useRoute();
     const router = useRouter();
