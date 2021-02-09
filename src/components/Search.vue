@@ -1,10 +1,10 @@
 <template>
   <div class="flex mr-4 items-center justify-end">
-    <input placeholder="Pesquisar" class="search" v-model="search.input" />
+    <input placeholder="Pesquisar" class="search w-36" v-model="search.input" />
     <snIcon
       width="24"
       height="24"
-      class="search--icon"
+      class="absolute mr-3"
       v-if="search.status === 'WRITE'"
       name="MessageLoad"
     />
@@ -52,7 +52,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .search {
   position: relative;
   padding: 5px 34px 5px 10px;

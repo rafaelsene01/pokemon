@@ -5,7 +5,7 @@
   >
     <router-link to="/">
       <img
-        class="object-contain h-16 xl:h-20"
+        class=" min-w-44 h-16 xl:h-20"
         src="@/assets/pokemon-logo.png"
         alt=""
       />

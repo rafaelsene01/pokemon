@@ -5,49 +5,30 @@
   >
     <a
       href="#"
+      @click="previous()"
       class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
     >
-      <svg
-        class="h-5 w-5"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      <snIcon width="24" height="24" name="Previous" />
     </a>
     <a
       v-for="key in 8"
       :key="key"
       @click="changeValue(key)"
       href="#"
-      :class="{ 'bg-gray-200 ': key === version }"
+      :class="[
+        { 'bg-gray-200': key === version },
+        { 'hidden md:block': key !== version }
+      ]"
       class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
     >
       {{ key }}
     </a>
     <a
       href="#"
+      @click="next()"
       class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
     >
-      <svg
-        class="h-5 w-5"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      <snIcon width="24" height="24" name="Next" />
     </a>
   </nav>
 </template>
@@ -63,8 +44,22 @@ export default {
       emit("update:version", value);
     }
 
+    function previous() {
+      if (props.version > 1) {
+        emit("update:version", props.version - 1);
+      }
+    }
+
+    function next() {
+      if (props.version < 8) {
+        emit("update:version", props.version + 1);
+      }
+    }
+
     return {
-      changeValue
+      changeValue,
+      previous,
+      next
     };
   }
 };

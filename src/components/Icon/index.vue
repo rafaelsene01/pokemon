@@ -6,10 +6,14 @@
 
 <script>
 import MessageLoad from "./MessageLoad.vue";
+import Previous from "./Previous.vue";
+import Next from "./Next.vue";
 
 export default {
   components: {
-    MessageLoad
+    MessageLoad,
+    Previous,
+    Next
   },
   props: {
     name: { type: String, required: true },
