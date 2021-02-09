@@ -33,7 +33,21 @@
               Pokémon {{ game.name.replace("-", " & ") }}
             </dd>
             <dt>Localização</dt>
+            <div
+              v-if="loading || empty"
+              class="flex justify-center items-center h-12"
+            >
+              <Icon
+                v-if="loading"
+                width="24"
+                height="24"
+                class="search--icon"
+                name="MessageLoad"
+              />
+              <span v-else>Não há registros</span>
+            </div>
             <dd
+              v-else
               class="capitalize"
               :class="{ 'bg-gray-100': index % 2 === 0 }"
               v-for="(location, index) in locations"
@@ -49,6 +63,7 @@
 </template>
 <script>
 import Header from "@/components/Header.vue";
+import Icon from "@/components/Icon/index.vue";
 import { useRoute, useRouter } from "vue-router";
 import useStore from "@/store";
 import { computed, watch } from "vue";
@@ -56,7 +71,8 @@ import { getLocale } from "@/store/pokemon";
 
 export default {
   components: {
-    Header
+    Header,
+    Icon
   },
 
   setup() {
@@ -77,6 +93,12 @@ export default {
     });
 
     const locations = computed(() => pokemon?.value?.location?.data);
+    const loading = computed(
+      () => pokemon?.value?.location?.loading && locations.value.length === 0
+    );
+    const empty = computed(
+      () => !pokemon?.value?.location?.loading && locations.value.length === 0
+    );
 
     watch(
       () => pokemon.value,
@@ -93,7 +115,7 @@ export default {
       event.target.src = require("@/assets/pokeball.png");
     }
 
-    return { pokemon, setAltImg, locations };
+    return { pokemon, setAltImg, locations, loading, empty };
   }
 };
 </script>

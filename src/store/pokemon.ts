@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 import http from "@/service/axios";
+import { cache } from "@/store";
 
 interface State {
   data: Array<any>;
@@ -26,6 +27,13 @@ interface PokemonList {
 }
 
 export async function getPokemonList(version: number) {
+  try {
+    const { data: cacheData } = cache.get("pokemon/list", { version });
+    state.data = cacheData;
+  } catch (error) {
+    //
+  }
+
   try {
     state.loading = true;
 
@@ -65,6 +73,8 @@ export async function getPokemonList(version: number) {
       };
       newData.push(data);
     });
+
+    cache.set("pokemon/list", { version }, newData);
 
     state.data = newData;
   } catch (error) {
@@ -112,12 +122,3 @@ export async function getLocale(id: number) {
     });
   }
 }
-
-// export function resetStore() {
-//   state = reactive(initialState);
-// }
-
-// export function setApiKey(apiKey) {
-//   const currentUser = { ...state.currentUser, apiKey };
-//   state.currentUser = currentUser;
-// }

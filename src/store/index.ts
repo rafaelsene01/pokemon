@@ -13,57 +13,59 @@ export default function useStore(module) {
   return Store;
 }
 
-// class StorageCache {
-//   STORAGE_KEY = "Pokemon";
+const keyConfig = (url: String, params?) => {
+  if (!params) {
+    return url;
+  }
 
-//   private encode(storage) {
-//     return btoa(JSON.stringify(storage));
-//   }
-//   private decode(storage) {
-//     return JSON.parse(atob(storage));
-//   }
+  const ordered = {};
+  Object.keys(params)
+    .sort()
+    .forEach(function(key) {
+      ordered[key] = params[key];
+    });
 
-//   get(fullPath) {
-//     const item = localStorage.getItem(this.STORAGE_KEY);
-//     if (item) {
-//       return JSON.parse(atob(item))[fullPath];
-//     }
-//   }
+  const newParams: any = [];
+  for (const item of Object.keys(ordered)) {
+    newParams.push(`${item}/${ordered[item]}`);
+  }
 
-//   set(fullPath, data) {
-//     let payload = {};
-//     const storage = localStorage.getItem(this.STORAGE_KEY);
-//     if (storage) {
-//       payload = this.decode(storage);
-//       payload[fullPath] = { data: data, ttl: Date.now() };
-//     } else {
-//       payload = { [fullPath]: { data: data, ttl: Date.now() } };
-//     }
+  return [url, ...newParams].join("/");
+};
 
-//     localStorage.setItem(this.STORAGE_KEY, this.encode(payload));
-//   }
-// }
+class StorageCache {
+  STORAGE_KEY = "Pokemon";
 
-// const cache = new StorageCache();
+  private encode(storage) {
+    return btoa(JSON.stringify(storage));
+  }
+  private decode(storage) {
+    return JSON.parse(atob(storage));
+  }
 
-// const keyConfig = (url: String, params?) => {
-//   if (!params) {
-//     return url;
-//   }
+  get(root, path) {
+    const fullPath: any = keyConfig(root, path);
+    const item = localStorage.getItem(this.STORAGE_KEY);
+    if (item) {
+      return JSON.parse(atob(item))[fullPath];
+    }
+  }
 
-//   const ordered = {};
-//   Object.keys(params)
-//     .sort()
-//     .forEach(function(key) {
-//       ordered[key] = params[key];
-//     });
+  set(root, path, data) {
+    const fullPath: any = keyConfig(root, path);
+    let payload = {};
+    const storage = localStorage.getItem(this.STORAGE_KEY);
+    if (storage) {
+      payload = this.decode(storage);
+      payload[fullPath] = { data: data };
+    } else {
+      payload = { [fullPath]: { data: data } };
+    }
 
-//   const newParams: any = [];
-//   for (const item of Object.keys(ordered)) {
-//     newParams.push(`${item}/${ordered[item]}`);
-//   }
+    localStorage.setItem(this.STORAGE_KEY, this.encode(payload));
+  }
+}
 
-//   return [url, ...newParams].join("/");
-// };
+const cache = new StorageCache();
 
-// export { cache, keyConfig };
+export { cache };
